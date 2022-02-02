@@ -6,15 +6,18 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import { Header } from "./components/Header";
 import PrivateRoute from "./utils/PrivateRoute";
+import { AuthProvider } from "./context/AuthContext";
 function App() {
   return (
     <div className="App">
       <Router>
-        <Header />
-        <Switch>
-          <PrivateRoute component={HomePage} path="/" exact />
-          <Route component={LoginPage} path="/login" />
-        </Switch>
+        <AuthProvider>
+          <Header />
+          <Switch>
+            <PrivateRoute component={HomePage} path="/" exact />
+            <Route component={LoginPage} path="/login" />
+          </Switch>
+        </AuthProvider>
       </Router>
     </div>
   );
