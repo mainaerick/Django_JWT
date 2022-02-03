@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.contrib.auth.models import User
+from .serializer import RegisterSerializer
+from rest_framework import generics
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -21,6 +24,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    # permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
 
 
 @api_view(['GET'])

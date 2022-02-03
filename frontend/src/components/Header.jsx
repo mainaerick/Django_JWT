@@ -10,11 +10,11 @@ export const Header = () => {
       <div className="left">
         {" "}
         <Link className="logo" to="/">
-          Home
+          Login SyS
         </Link>
       </div>
       <div className="right">
-        <h3>Hello {user && user.name}</h3>
+        <h3>{user && "Hello " + user.name}</h3>
         {user ? (
           <button onClick={logoutUser}>Logout</button>
         ) : (

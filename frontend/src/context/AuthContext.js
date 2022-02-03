@@ -21,9 +21,36 @@ export const AuthProvider = ({ children }) => {
 
   const history = useHistory();
 
+  //   register user
+  let registerUser = async (e) => {
+    e.preventDefault();
+    let response = await fetch("http://127.0.0.1:8000/api/register/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: e.target.username.value,
+        password: e.target.password.value,
+        password2: e.target.password2.value,
+        email: e.target.email.value,
+        first_name: e.target.firstname.value,
+        last_name: e.target.lastname.value,
+      }),
+    });
+    // let data = await response.json();
+    console.log(response.status);
+    if (response.status === 201) {
+      history.push("/login");
+    } else {
+      alert("Something went wrong!");
+    }
+  };
+
+  //   login user
   let loginUser = async (e) => {
     e.preventDefault();
-    let response = await fetch("http://127.0.0.1:8000/api/token/", {
+    let response = await fetch("http://127.0.0.1:8000/api/login/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +61,6 @@ export const AuthProvider = ({ children }) => {
       }),
     });
     let data = await response.json();
-    console.log(data);
     if (response.status === 200) {
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
@@ -53,7 +79,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   let updateToken = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
+    let response = await fetch("http://127.0.0.1:8000/api/login/refresh/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,6 +106,7 @@ export const AuthProvider = ({ children }) => {
     user: user,
     authTokens: authTokens,
     loginUser: loginUser,
+    registerUser: registerUser,
     logoutUser: logoutUser,
   };
 
